@@ -1,16 +1,19 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package gestionIcad.vue;
 
+import gestionIcad.controller.UserController;
 import gestionIcad.dao.UtilisateurDao;
 import gestionIcad.model.Utilisateur;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 
 /**
  *
@@ -18,26 +21,20 @@ import javax.swing.table.DefaultTableModel;
  */
 public class MainFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainFrame
-     */
-    private DefaultTableModel utilisateurTableModel;
-
-    public MainFrame() {
-        //Tableau
-        this.utilisateurTableModel = new DefaultTableModel();
+    public static MyTableModel utilisateurTableModel;
+    public static List<Utilisateur> utilisateurs = new ArrayList<>();
+    private UserController userController = new UserController();
+    public MainFrame() {        
+        this.utilisateurTableModel = new MyTableModel();   // Création du tableau
         List<String> columnNames = Arrays.asList("ID", "Nom", "Prénom", "Email", "Fonction", "Adresse", "Ville", "Code Postal", "Telephone");
         utilisateurTableModel.setColumnIdentifiers(columnNames.toArray());
-        List<Utilisateur> utilisateurs = new ArrayList<>();;
         try {
-            utilisateurs = UtilisateurDao.getUtilisateurs();
+            utilisateurs = UtilisateurDao.getUtilisateurs(); // Récupération des utilisateurs dans la liste
         } catch (SQLException e) {
-            // Handle SQL Exception (e.g., print error message)
             e.printStackTrace();
         }
 
-        // Fill table model with data
-        for (Utilisateur u : utilisateurs) {
+        for (Utilisateur u : utilisateurs) { // Insertion des données de la liste utilisateurs dans utilisateurTableModel
             utilisateurTableModel.addRow(new Object[]{
                 u.getIdUtilisateur(),
                 u.getNomUser(),
@@ -50,8 +47,8 @@ public class MainFrame extends javax.swing.JFrame {
                 u.getTelephoneUser()
             });
         }
-
         initComponents();
+        this.jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  // Empêche la selection de plusieurs utilisateurs en même temps
     }
 
     /**
@@ -63,23 +60,76 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLayeredPane1 = new javax.swing.JLayeredPane();
+        jPanel8 = new javax.swing.JPanel();
+        ICAD6 = new java.awt.Label();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         btnAjouter = new javax.swing.JButton();
         btnModifier = new javax.swing.JButton();
         btnSupprimer = new javax.swing.JButton();
 
+        javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
+        jLayeredPane1.setLayout(jLayeredPane1Layout);
+        jLayeredPane1Layout.setHorizontalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jLayeredPane1Layout.setVerticalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestion Icad");
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        setResizable(false);
+
+        jPanel8.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel8.setMaximumSize(new java.awt.Dimension(1000, 800));
+        jPanel8.setMinimumSize(new java.awt.Dimension(1000, 800));
+
+        ICAD6.setAlignment(java.awt.Label.CENTER);
+        ICAD6.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        ICAD6.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
+        ICAD6.setForeground(new java.awt.Color(255, 255, 255));
+        ICAD6.setMaximumSize(new java.awt.Dimension(1000, 800));
+        ICAD6.setMinimumSize(new java.awt.Dimension(1000, 800));
+        ICAD6.setName(""); // NOI18N
+        ICAD6.setText("ICAD - Gestion des utilisateurs");
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(59, Short.MAX_VALUE)
+                .addComponent(ICAD6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ICAD6, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
+        );
 
         jTable1.setFont(new java.awt.Font("Lexend", 0, 12)); // NOI18N
         jTable1.setModel(this.utilisateurTableModel
         );
-        jTable1.setRowHeight(30);
+        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTable1.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
+        jTable1.setDropMode(javax.swing.DropMode.ON);
+        jTable1.setGridColor(new java.awt.Color(102, 102, 102));
+        jTable1.setOpaque(false);
+        jTable1.setRowHeight(45);
+        jTable1.setSelectionBackground(new java.awt.Color(51, 51, 51));
+        jTable1.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(jTable1);
 
+        btnAjouter.setBackground(new java.awt.Color(204, 204, 204));
         btnAjouter.setFont(new java.awt.Font("Lexend", 0, 12)); // NOI18N
+        btnAjouter.setForeground(new java.awt.Color(0, 0, 0));
         btnAjouter.setText("Ajouter");
         btnAjouter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,56 +137,94 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        btnModifier.setBackground(new java.awt.Color(204, 204, 204));
         btnModifier.setFont(new java.awt.Font("Lexend", 0, 12)); // NOI18N
+        btnModifier.setForeground(new java.awt.Color(0, 0, 0));
         btnModifier.setText("Modifier");
+        btnModifier.setPreferredSize(new java.awt.Dimension(139, 139));
         btnModifier.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnModifierActionPerformed(evt);
             }
         });
 
+        btnSupprimer.setBackground(new java.awt.Color(204, 204, 204));
         btnSupprimer.setFont(new java.awt.Font("Lexend", 0, 12)); // NOI18N
+        btnSupprimer.setForeground(new java.awt.Color(51, 51, 51));
         btnSupprimer.setText("Supprimer");
+        btnSupprimer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSupprimerActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(76, 76, 76)
-                .addComponent(btnAjouter, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(152, 152, 152)
-                .addComponent(btnModifier, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
-                .addComponent(btnSupprimer, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(73, 73, 73))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(100, 100, 100)
+                .addComponent(btnAjouter, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(250, 250, 250)
+                .addComponent(btnModifier, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 250, Short.MAX_VALUE)
+                .addComponent(btnSupprimer, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(100, 100, 100))
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(68, 68, 68)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSupprimer, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnModifier, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAjouter, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(105, Short.MAX_VALUE))
+                    .addComponent(btnModifier, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAjouter, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSupprimer, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(84, 84, 84))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAjouterActionPerformed
-        GestionUser AjouterUtilisateur = new GestionUser();
+        NewUser AjouterUtilisateur = new NewUser(this.userController);
         AjouterUtilisateur.setVisible(true);
-       
+
+
     }//GEN-LAST:event_btnAjouterActionPerformed
 
     private void btnModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifierActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = jTable1.getSelectedRow();   // Obtenir l'indice de la ligne sélectionnée
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Veuillez sélectionner un utilisateur à modifier", "Erreur", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        Utilisateur u = utilisateurs.get(selectedRow);
+        System.out.println(u);
+        EditUser ModifierUtilisateur = new EditUser(u, this.userController);
+        ModifierUtilisateur.setVisible(true);
     }//GEN-LAST:event_btnModifierActionPerformed
+
+    private void btnSupprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupprimerActionPerformed
+        int selectedRow = jTable1.getSelectedRow();  // Obtenir l'indice de la ligne sélectionnée
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Veuillez sélectionner un utilisateur à supprimer", "Erreur", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        int confirm = JOptionPane.showConfirmDialog(this, "Souhaitez-vous vraiment supprimer cet utilisateur ?", "Confirmation de suppression", JOptionPane.YES_NO_OPTION); // Afficher un message de confirmation
+
+        // Si l'utilisateur confirme la suppression, supprime la ligne du tableau et obtient l'id de l'utilisateur selectionné
+        if (confirm == JOptionPane.YES_OPTION) {
+            int idUtilisateur = utilisateurs.get(selectedRow).getIdUtilisateur();
+            this.userController.SupprimerUtilisateur(idUtilisateur, selectedRow);
+     }                                                  
+    }//GEN-LAST:event_btnSupprimerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -152,16 +240,24 @@ public class MainFrame extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -174,9 +270,12 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private java.awt.Label ICAD6;
     private javax.swing.JButton btnAjouter;
     private javax.swing.JButton btnModifier;
     private javax.swing.JButton btnSupprimer;
+    private javax.swing.JLayeredPane jLayeredPane1;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
