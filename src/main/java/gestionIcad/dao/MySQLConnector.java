@@ -8,16 +8,20 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-
 /**
  *
  * @author Kyorai
  */
 public class MySQLConnector {
 
-    private static final String url = "jdbc:mysql://localhost:3306/icad";
+    /*private static final String url = "jdbc:mysql://localhost:3306/icad";
     private static final String user = "root";
     private static final String pass = "";
+    private static Connection con = null;
+     */
+    private static final String url = "jdbc:mysql://172.28.36.10:3306/icad";
+    private static final String user = "joandokevin";
+    private static final String pass = "pass";
     private static Connection con = null;
 
     public static Connection getConnexion() throws SQLException {
